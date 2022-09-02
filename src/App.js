@@ -3,6 +3,7 @@ import {Layout, Menu} from 'antd'
 import TodoList from './components/TodoList';
 import AddTask from './components/AddTask';
 import SignUp from './components/Signup'
+import Login from './components/Login'
 import {useState, useEffect} from 'react'
 
 const {Header, Content, Footer} = Layout
@@ -10,7 +11,7 @@ const {Header, Content, Footer} = Layout
 function App() {
   const [taskList, setTaskList] = useState()
   const [token, setToken] = useState()
-  const[isUser , setIsUser] = useState()
+  const [isUser , setIsUser] = useState(false)
   useEffect(()=>{
     if(localStorage.getItem("token")){
       setToken(localStorage.getItem("token"))
@@ -37,11 +38,11 @@ function App() {
           <h1>Three-do</h1>
           <TodoList token={token} taskList={taskList} setTaskList={setTaskList} />
           <AddTask token={token} setTaskList={setTaskList} />
-          {!token && 
+          {!token ?
           isUser
-          <setToken={setToken}/>
-          <SignUp setToken={setToken}/>
-          }
+         ? <Login setIsUser={setIsUser} setToken={setToken}/>
+          : <SignUp setIsUser={setIsUser} setToken={setToken}/>
+         : null }
         </div>
       </Content>
       <Footer
